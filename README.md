@@ -44,8 +44,6 @@
 모델은 과거 일정 기간의 트래픽 시계열 데이터를 입력으로 받아
 미래 특정 시점의 트래픽 부하를 예측하는 회귀 모델로 구성된다.
 
----
-
 ### 2) 예측 기반 임계값 자원 할당 로직
 
 자원 할당은 단순한 현재 트래픽 수치가 아닌,
@@ -72,16 +70,16 @@ LSTM 입력 형태와 예측 기반 자원 할당 로직의 예제 코드를 제
 1. LSTM 입력 데이터 형태 예시
 import torch
 
-# (batch_size, time_steps, features)
-# 예: 32개의 샘플, 과거 24 타임스텝, 1개의 트래픽 특성
+(batch_size, time_steps, features)
+예: 32개의 샘플, 과거 24 타임스텝, 1개의 트래픽 특성
+
 input_sequence = torch.randn(32, 24, 1)
 
-# LSTM 모델 예측
+LSTM 모델 예측
 predicted_traffic = model(input_sequence)
 
-
-해당 입력 구조를 통해 모델은 과거 일정 기간의 트래픽 시계열을 기반으로
-미래 트래픽 부하를 예측한다.
+#해당 입력 구조를 통해 모델은 과거 일정 기간의 트래픽 시계열을 기반으로
+#미래 트래픽 부하를 예측한다.
 
 2. 예측 기반 임계값 자원 할당 로직 예시
 def allocate_resource(predicted_load, total_capacity):
@@ -91,16 +89,16 @@ def allocate_resource(predicted_load, total_capacity):
         scale_in()    # 자원 회수
 
 
-LSTM 모델의 예측 결과가 사전에 정의된 임계값을 초과하거나 미만일 경우,
-자원을 동적으로 확장(Scale-out) 또는 회수(Scale-in)한다.
+#LSTM 모델의 예측 결과가 사전에 정의된 임계값을 초과하거나 미만일 경우,
+#자원을 동적으로 확장(Scale-out) 또는 회수(Scale-in)한다.
 
 3. 전체 실행 흐름 예시
 predicted_traffic = model(input_sequence)
 allocate_resource(predicted_traffic, total_capacity)
 
 
-위 흐름을 통해 트래픽 증가를 사전에 감지하고
-서비스 품질 저하 없이 자원을 선제적으로 관리할 수 있다.
+#위 흐름을 통해 트래픽 증가를 사전에 감지하고
+#서비스 품질 저하 없이 자원을 선제적으로 관리할 수 있다.
 
 ---
 
