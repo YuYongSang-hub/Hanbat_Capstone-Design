@@ -85,6 +85,7 @@ predicted_traffic = model(input_sequence)
 #미래 트래픽 부하를 예측한다.
 
 2. 예측 기반 임계값 자원 할당 로직 예시
+   
 def allocate_resource(predicted_load, total_capacity):
     if predicted_load > total_capacity * 0.8:
         scale_out()   # 자원 확장
