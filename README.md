@@ -5,7 +5,8 @@
 ## (1) 프로젝트 개요
 
 본 프로젝트는 LSTM(Long Short-Term Memory) 기반 시계열 예측 모델을 활용하여  
-네트워크 트래픽을 사전에 예측하고, 예측 결과를 기반으로 자원을 동적으로
+네트워크 트래픽을 사전에 예측하고
+예측 결과를 기반으로 자원을 동적으로
 할당하는 시스템을 구현하는 것을 목표로 한다.
 
 기존의 현재 트래픽 수치 기반 자원 할당 방식은
@@ -63,6 +64,48 @@ LSTM 모델이 예측한 미래 트래픽 값을 기준으로 수행한다.
 임계값은 사전 실험을 통해 설정되며,
 불필요한 잦은 Scale-in / Scale-out을 방지하기 위해
 연속적인 조건 만족 시에만 자원 조정을 수행한다.
+
+### 3) Example Code Snippet
+
+본 프로젝트의 핵심 동작 흐름을 이해하기 위해,
+LSTM 입력 형태와 예측 기반 자원 할당 로직의 예제 코드를 제시한다.
+아래 코드는 전체 구현이 아닌, 주요 개념을 설명하기 위한 예시 코드이다.
+
+1) LSTM 입력 데이터 형태 예시
+```
+import torch
+
+#(batch_size, time_steps, features)
+#예: 32개의 샘플, 과거 24 타임스텝, 1개의 트래픽 특성
+input_sequence = torch.randn(32, 24, 1)
+
+# LSTM 모델 예측
+predicted_traffic = model(input_sequence)
+```
+
+해당 입력 구조를 통해 모델은 과거 일정 기간의 트래픽 시계열을 기반으로
+미래 트래픽 부하를 예측한다.
+
+2) 예측 기반 임계값 자원 할당 로직 예시
+```
+def allocate_resource(predicted_load, total_capacity):
+    if predicted_load > total_capacity * 0.8:
+        scale_out()   # 자원 확장
+    elif predicted_load < total_capacity * 0.2:
+        scale_in()    # 자원 회수
+```
+
+LSTM 모델의 예측 결과가 사전에 정의된 임계값을 초과하거나 미만일 경우,
+자원을 동적으로 확장(Scale-out) 또는 회수(Scale-in)한다.
+
+3) 전체 실행 흐름 예시
+```
+predicted_traffic = model(input_sequence)
+allocate_resource(predicted_traffic, total_capacity)
+```
+
+위 흐름을 통해 트래픽 증가를 사전에 감지하고,
+서비스 품질 저하 없이 자원을 선제적으로 관리할 수 있다.
 
 ---
 
