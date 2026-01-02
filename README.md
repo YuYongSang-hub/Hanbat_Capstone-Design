@@ -85,23 +85,26 @@ LSTM 모델이 예측한 미래 트래픽 값을 기준으로 수행한다.
 
 ## (5) 파일 구조
 
+```
+
 ├── data/
-│ ├── raw/ # 원본 트래픽 데이터
-│ └── processed/ # 전처리된 데이터
+│   ├── raw/                # 원본 트래픽 데이터
+│   └── processed/          # 전처리된 데이터
 │
 ├── model/
-│ ├── lstm_model.py # LSTM 모델 정의
-│ └── train.py # 모델 학습 코드
+│   └── lstm_model.py       # LSTM 모델 정의
+│
+├── train.py                # 모델 학습 코드
 │
 ├── resource/
-│ └── allocator.py # 임계값 기반 자원 할당 로직
+│   └── allocator.py        # 임계값 기반 자원 할당 로직
 │
 ├── evaluation/
-│ └── metrics.py # 성능 평가 지표 계산
+│   └── metrics.py          # 성능 평가 지표 계산
 │
-├── main.py # 전체 시스템 실행 파일
+├── main.py                 # 전체 시스템 실행 파일
 └── README.md
-
+```
 ## 실행 환경
 
 -OS: Linux (Ubuntu 20.04+) / Windows 10 & 11
