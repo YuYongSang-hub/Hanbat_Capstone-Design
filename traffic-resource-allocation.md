@@ -88,3 +88,40 @@
 |MSE | 실제 트래픽과 예측 트래픽 간의 오차|모델 성능 지표|
 |Scaling Count|Scale-out/in 발생 횟수|정책 작동 빈도|
 |Utilization|할당된 자원 대비 실제 트래픽 비율|자원 효율성 지표|
+
+## 모델 및 실험 PARAMETERS
+
+- Data Generation
+
+| Parameter | Value | Description |
+|--------|------|------------|
+| INTERVAL_SEC | 5 sec | Traffic sampling interval |
+| TOTAL_SAMPLES | 5000 | Total time steps (~7 hours) |
+| NUM_NODES | 10 | Number of network nodes |
+
+- Input Window
+
+| Parameter | Value | Description |
+|--------|------|------------|
+| WINDOW_SIZE (T) | 12 | Past time steps used as input |
+| NUM_FEATURES (F) | 1 | Bytes per node |
+
+- Model (LSTM)
+
+| Parameter | Value |
+|--------|------|
+| Hidden Size | 64 |
+| Num Layers | 2 |
+| Optimizer | Adam |
+| Loss | MSE |
+| Learning Rate | 0.001 |
+| Epochs | 50 |
+| Batch Size | 32 |
+
+- Inference & Allocation
+
+| Parameter | Value | Description |
+|--------|------|------------|
+| TOTAL_CAPACITY | 100 | Total available resource |
+| SCALE_OUT_TH | 0.8 | Scale-out threshold |
+| SCALE_IN_TH | 0.2 | Scale-in threshold |
